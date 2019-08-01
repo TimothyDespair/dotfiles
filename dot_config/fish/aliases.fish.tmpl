@@ -1,17 +1,24 @@
 # Editor
 alias spc="emacsclient -ct"
 alias src="spc ~/.spacemacs"
+
+{{- if ne .chezmoi.os "darwin"}}
 # Awesome
 export AWSMDIR="~/.config/awesome/"
 alias arc="spc $AWSMDIR/rc.lua"
 alias ath="spc $AWSMDIR/themes/default/theme.lua"
+{{- end }}
+
 # Fish Shell
 export FISHDIR="~/.config/fish/"
 alias fal="spc $FISHDIR/aliases.fish; source $FISHDIR/aliases.fish"
 alias frc="spc $FISHDIR/config.fish; source $FISHDIR/config.fish"
 alias fth="spc $FISHDIR/theme.fish; source $FISHDIR/theme.fish"
+
+{{- if ne .chezmoi.os "darwin" }}
 # X Files
 alias xrs="spc ~/.Xresources; xrdb -merge ~/.Xresources"
 alias xdf="spc ~/.Xdefaults"
 alias xrm="xrdb -merge ~/.Xresources"
+{{- end }}
 
