@@ -3,4 +3,5 @@
 .Xresources
 .config/awesome/
 {{- end }}
+odds_and_ends/
 
