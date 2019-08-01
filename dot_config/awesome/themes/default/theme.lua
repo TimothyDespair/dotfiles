@@ -11,7 +11,7 @@ local themes_path = "/home/tim/.config/awesome/themes/"
 
 local theme = {}
 
-theme.font          = "xos4 Terminus normal 9"
+theme.font          = "Meslo LG S for Powerline 9"
 
 theme.bg_normal     = "#282828"
 theme.bg_focus      = "#d79921"
