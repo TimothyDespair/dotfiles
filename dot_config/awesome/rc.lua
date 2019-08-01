@@ -40,7 +40,7 @@ local dpi = require("beautiful.xresources").apply_dpi
 require("awful.hotkeys_popup.keys")
 
 -- {{{ QUICK SETTINGS
-beautiful.init("/home/despair/.config/awesome/themes/default/theme.lua")
+beautiful.init("/home/tim/.config/awesome/themes/default/theme.lua")
 
 terminal = "urxvt"
 editor = os.getenv("EDITOR") or "kak"
