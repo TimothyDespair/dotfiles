@@ -1,0 +1,4 @@
+clear Lock
+keycode 0x42 = Alt_L
+keycode 0x87 = Super_L
+
