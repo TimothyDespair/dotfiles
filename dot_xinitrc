@@ -1,0 +1,3 @@
+xrdb -merge ~/.Xresources
+prlcc &
+exec awesome
