@@ -1,7 +1,13 @@
+{{- if ne .chezmoi.hostname "penelope" }}
+.Xmodmap
+.xbindkeysrc
+{{- end }}
+
 {{- if eq .chezmoi.os "darwin" }}
 .Xdefaults
 .Xresources
 .config/awesome/
 {{- end }}
+
 odds_and_ends/
 
