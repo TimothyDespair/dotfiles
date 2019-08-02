@@ -10,16 +10,25 @@ This is the procedural bit. Most configuration should go in `settings.lua`
 pcall(require, "luarocks.loader")
 
 -------------------------------------------------------------------- LUAROCKS --
+-- QUICK SETTINGS --------------------------------------------------------------
+
+local settings = require("settings")
+
+-------------------------------------------------------------- QUICK SETTINGS --
 -- THEME -----------------------------------------------------------------------
 
 local beautiful = require("beautiful")
 local theme_dir = os.getenv("HOME") .. ".config/awesome/themes/"
 
+local xresources = require("beautiful.xresources")
 dpi = xresources.apply_dpi
 
-beautiful.init( theme_dir .. theme_name .. "/theme.lua" )
-local xresources = require("beautiful.xresources")
+beautiful.init( theme_dir .. settings.active_theme .. "/theme.lua" )
 
+local xrdb = xresources.get_current_theme()
+for k, v in pairs(xrdb) do
+  beautiful["x"..k] = v
+end
 ----------------------------------------------------------------------- THEME --
 -- AWESOME ---------------------------------------------------------------------
 
@@ -58,9 +67,6 @@ do
             , text   = toString(err) } )
         in_error = false end ) end
 ---------------------------------------------------------------------- ERRORS --
--- QUICK SETTINGS --------------------------------------------------------------
-local settings = require(settings)
---------------------------------------------------------------------------------
 
 awful.layout.layouts = settings.layouts
 menubar.utils.terminal = terminal
@@ -102,6 +108,6 @@ root.buttons
 local keys = require("keys")
 root.keys(keys)
 
-require("rules")
+require("clientrules")
 
 require("clients")

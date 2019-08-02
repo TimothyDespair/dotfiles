@@ -1,3 +1,7 @@
+local awful = require("awful")
+local gears = require("gears")
+local wibox = require("wibox")
+
 -- Theming transitions
 local update_taglist = function (item, tag, index)
   if tag.selected then

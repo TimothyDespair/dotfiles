@@ -1,3 +1,6 @@
+local awful = require("awful")
+local gears = require("gears")
+
 local clientkeys = require("clientkeys")
 
 clientbuttons =

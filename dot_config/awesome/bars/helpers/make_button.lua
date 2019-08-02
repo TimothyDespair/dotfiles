@@ -7,42 +7,44 @@ local keys = require("keys")
 
 local colorise_text = require("helpers/colorise_text")
 
+local function get_theme_prop(name)
+  if beautiful.bar then
+    if beautiful.bar.button then
+      return beautiful.bar.button[name]
+    else return beatiful.bar[name] end
+  else return beautiful[name] end end
+
+local gtp = get_theme_prop
+
 make_button = function (symbol, color, bg_color, hover_color, font, shape, width)
   local widget = wibox.widget
-    { font =
-        font or
-        beautiful.bar.button.font or
-        beautiful.bar.font or
-        beautiful.font
+    { font = font or gtp("font")
     , align = "center"
     , id = "text_role"
     , valign = "center"
     , markup =
         colorise_text
           ( symbol
-          , color or
-            beautiful.bar.button.color or
-            beautiful.bar.color or
-            beautiful.color )
+          , color or gtp("color") or beautiful.xcolor15 )
     , widget = wibox.widget.textbox() }
 
   local section = wibox.widget
     { widget
     , forced_width =
         width or
-        beautiful.bar.button.width or
-        beautiful.button.width or
-        dpi(70)
-    , bg =
-        bg_color or
-        beautiful.bar.button.bg_color or
-        beautiful.button.bg_color or
-        beautiful.bg_color
+        beautiful.bar and
+          ( beautiful.bar.button and
+            beautiful.bar.button.width or
+            beautiful.button.width ) or
+        dpi(20)
+    , bg = bg_color or gtp("bg_color")
     , widget = wibox.container.background
     , shape =
-        beautiful.bar.button.shape or
-        beautiful.button.shape or
-        gears.shape.rectangle() }
+        beautiful.bar and
+          ( beautiful.bar.button and
+            beautiful.bar.button.shape or
+            beautiful.button.shape ) or
+        function (cr, width, height) gears.shape.rectangle(cr, width, height) end }
 
   section:connect_signal("mouse::enter", function ()
     section.bg =

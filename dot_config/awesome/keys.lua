@@ -1,7 +1,12 @@
 local awful = require("awful")
+local gears = require("gears")
+
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 local titlebars_on = true -- For tablet mode
+
+local settings = require("settings")
+local modkey = settings.modkey
 
 local keys =
   gears.table.join
@@ -24,7 +29,7 @@ local keys =
         ( { modkey,           }, "k",        function () awful.client.focus.byidx(-1) end
         , { description = "- Foucs",         group = "Client" } )
     , awful.key
-        ( { modkey,           }, "w",        function () mymainmenu:show() end
+        ( { modkey,           }, "w",        function () mymainmenu:show() end -- TODO
         , { description = "Main Menu",       group = "Awesome" } )
     -- Layout manipulation
     , awful.key
@@ -50,7 +55,7 @@ local keys =
         , { description = "Last Client",     group = "Client" } )
     -- Standard program
     , awful.key
-        ( { modkey,           }, "Return",   function () awful.spawn(terminal) end
+        ( { modkey,           }, "Return",   function () awful.spawn(settings.terminal) end
         , { description = "Terminal",        group = "Launcher" } )
     , awful.key
         ( { modkey, "Control" }, "r",        awesome.restart

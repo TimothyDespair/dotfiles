@@ -5,9 +5,10 @@ local beautiful = require("beautiful")
 
 local keys = require("keys")
 
+local launcher = require("menu").menu_launcher
 local volume = require("bars/buttons/volume")
 local layout = require("bars/buttons/layout")
-
+local taglist = require("bars/widgets/taglist")
 
 local attach_bar = function(s)
   s.taglist = taglist(s)
@@ -17,7 +18,8 @@ local attach_bar = function(s)
     { visible = true
     , ontop = true
     , type = "dock"
-    , position = "top" } )
+    , position = "top"
+    , height = beautiful.bar and beautiful.bar.height or dpi(26) } )
 
   s.wibox:setup
     { layout = wibox.layout.align.horizontal
@@ -33,6 +35,6 @@ local attach_bar = function(s)
         -- BINARY CLOCK
       , s.layout_button } }
 
-  awful.layout.maximize_horizontally(s.wibox) end
+  awful.placement.maximize_horizontally(s.wibox) end
 
 return attach_bar

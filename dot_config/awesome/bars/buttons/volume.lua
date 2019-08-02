@@ -1,16 +1,20 @@
 local awful = require("awful")
+local gears = require("gears")
+
 local beautiful = require("beautiful")
 
 local make_button = require("bars/helpers/make_button")
 
 local volume_control = require("helpers/volume_control")
 
-local volume_char = beautiful.volume_char or "🔈" -- Unicode Speaker
-local volume_font = beautiful.volume.font
-local volume_muted_color = beautiful.volume_muted_color or beautiful.xcolor8
-local volume_unmuted_color = beautiful.volume_unmuted_color or beautiful.xcolor5
-local volume_button_color = beautiful.volume.bg_color or beautiful.xcolor0
-local volume_button_hover_color = beautiful.volume.hover_color or beautiful.xcolor13
+local bv = beautiful.volume -- For checking values exist quickly
+
+local volume_char               = bv and bv.char or "🔈" -- Unicode Speaker
+local volume_font               = bv and bv.font
+local volume_muted_color        = bv and bv.muted_color or beautiful.xcolor8
+local volume_unmuted_color      = bv and bv.unmuted_color or beautiful.xcolor5
+local volume_button_color       = bv and bv.bg_color or beautiful.xcolor0
+local volume_button_hover_color = bv and bv.hover_color or beautiful.xcolor13
 
 local volume = make_button
   ( volume_char
@@ -19,7 +23,7 @@ local volume = make_button
   , volume_button_hover_color
   , volume_font )
 
-volume:buttons(gear.table.join(
+volume:buttons(gears.table.join(
   awful.button({ }, 3, function()
     volume_control(0)
   end),
