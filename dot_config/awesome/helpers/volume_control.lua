@@ -1,21 +1,32 @@
 local awful = require("awful")
 
-local volume_get_cmd = "pactl list sinks | grep -m 1 'Volume:' | awk '{print $5}' | cut -d '%' -f1"
-local muted_get_cmd = "pactl list sinks | grep -m 1 'Mute:' | awk '{printf \"%s\", $2}'"
+local volume_get_cmd =
+  [[pactl list sinks | \
+    grep -m 1 'Volume:' | \
+    awk '{print $5}' | \
+    cut -d '%' -f1]]
+local muted_get_cmd = 
+  [[pactl list sinks | \
+  grep -m 1 'Mute:' | \
+  awk '{printf \"%s\", $2}']]
+
 local volume_notif
 
 function volume_control(step)
   local cmd
   if step == 0 then
-    cmd = "pactl set-sink-mute @DEFAULT_SINK@ toggle && "..muted_get_cmd
+    cmd =
+      "pactl set-sink-mute @DEFAULT_SINK@ toggle && "
+      ..muted_get_cmd
     awful.spawn.with_shell(cmd)
   else
-    if step > 0 then
-      sign = "+"
-    else
-      sign = ""
-    end
-    cmd = "pactl set-sink-mute 0 @DEFAULT_SINK@ && pactl set-sink-volume @DEFAULT_SINK@ "..sign..tostring(step).."% && "..volume_get_cmd
+    sign = step > 0 and "+" or ""
+
+    cmd =
+      [[pactl set-sink-mute 0 @DEFAULT_SINK@ && \
+        pactl set-sink-volume @DEFAULT_SINK@ ]]
+        ..sign..tostring(step).."% && "..volume_get_cmd
+    
     awful.spawn.easy_async_with_shell(cmd, function(out)
       print(out)
       out = out:gsub('^%s*(.-)%s*$', '%1')

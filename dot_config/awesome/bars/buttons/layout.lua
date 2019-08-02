@@ -1,30 +1,17 @@
 local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
+
 local beautiful = require("beautiful")
 
-local keys = require("keys")
+local layout = function(s)
+  local widget = awful.widget.layoutbox(s)
 
-local colorise_text = require("helpers/colorise_text")
-
-make_button = function (symbol, color, bg_color, hover_color, font, shape, width)
-  local widget = wibox.widget
-    { font =
-        font or
-        beautiful.bar.button.font or
-        beautiful.bar.font or
-        beautiful.font
-    , align = "center"
-    , id = "text_role"
-    , valign = "center"
-    , markup =
-        colorise_text
-          ( symbol
-          , color or
-            beautiful.bar.button.color or
-            beautiful.bar.color or
-            beautiful.color )
-    , widget = wibox.widget.textbox() }
+  layout:buttons ( gears.table.join
+    ( awful.button({ }, 1, function() awful.layout.inc( 1) end )
+    , awful.button({ }, 3, function() awful.layout.inc(-1) end )
+    , awful.button({ }, 4, function() awful.layout.inc( 1) end )
+    , awful.button({ }, 5, function() awful.layout.inc(-1) end ) ) )
 
   local section = wibox.widget
     { widget
@@ -57,6 +44,5 @@ make_button = function (symbol, color, bg_color, hover_color, font, shape, width
       beautiful.button.bg_color or
       beautiful.bg_color end )
 
-  return section end
-
-return make_button
+  return section
+end

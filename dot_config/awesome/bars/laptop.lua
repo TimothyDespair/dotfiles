@@ -5,4 +5,34 @@ local beautiful = require("beautiful")
 
 local keys = require("keys")
 
-local volume_button = require("bars/volume_button")
+local volume = require("bars/buttons/volume")
+local layout = require("bars/buttons/layout")
+
+
+local attach_bar = function(s)
+  s.taglist = taglist(s)
+  s.layout_button = taglist(s)
+
+  s.wibox = awful.wibar(
+    { visible = true
+    , ontop = true
+    , type = "dock"
+    , position = "top" } )
+
+  s.wibox:setup
+    { layout = wibox.layout.align.horizontal
+    , { layout = wibox.layout.align.horizontal
+      , launcher
+      --[[ TODO Music ]] }
+    , s.taglist
+    , { layout = wibox.layout.align.horizontal
+        -- VPN,
+        -- WIFI,
+      , volume
+        -- BATTERY,
+        -- BINARY CLOCK
+      , s.layout_button } }
+
+  awful.layout.maximize_horizontally(s.wibox) end
+
+return attach_bar
