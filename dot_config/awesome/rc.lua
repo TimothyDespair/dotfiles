@@ -1,8 +1,60 @@
--- If LuaRocks is installed, make sure that packages installed through it are
--- found (e.g. lgi). If LuaRocks is not installed, do nothing.
+--[[
+Awesome 4.3 RC
+  @TimothyDespair
+
+With inspiration from @elenapan
+]]
+
+local themes = {
+  "gruvy",      -- 1 --
+}
+
+local active_theme = themes[1]
+
+--------------------------------------------------------------------------------
+
+local bar_themes = {
+  "gruvy",      -- 1 --
+}
+
+local active_bar_theme = bar_themes[1]
+
+--------------------------------------------------------------------------------
+
+-- TODO Icon themes.
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- THEMES
+
+local beautiful = require("beautiful")
+local theme_dir = os.getenv("HOME") .. ".config/awesome/themes/"
+
+beautiful.init( theme_dir .. theme_name .. "/theme.lua" )
+
+local xresources = require("beautiful.xresources")
+
+dpi = xresources.apply_dpi
+
+--------------------------------------------------------------------------------
+-- AWESOME
+local gears = require("gears")
+local awful = require("awful")
+local wibox = require("wibox")
+require("awful.autofocus")
+
+local naughty = require("naughty")
+
+local menubar = require("menubar")
+local hotkeys_popup = require("awful.hotkeys_popup").widget
+require("awful.hotkeys_popup.keys")
+
+--------------------------------------------------------------------------------
+-- LUAROCKS
 pcall(require, "luarocks.loader")
 
--- {{{ ERRORS
+--------------------------------------------------------------------------------
+-- ERRORS
 -- Startup Errors
 if awesome.startup_errors then
   naughty.notify
@@ -27,26 +79,15 @@ do
         in_error = false end ) end
 -- ERRORS }}}
 
--- AWESOME LIBRARY
-local gears = require("gears")
-local awful = require("awful")
-require("awful.autofocus")
-local wibox = require("wibox")
-local beautiful = require("beautiful")
-local naughty = require("naughty")
-local menubar = require("menubar")
-local hotkeys_popup = require("awful.hotkeys_popup")
-local dpi = require("beautiful.xresources").apply_dpi
-require("awful.hotkeys_popup.keys")
-
--- {{{ QUICK SETTINGS
-beautiful.init("/home/tim/.config/awesome/themes/default/theme.lua")
+--------------------------------------------------------------------------------
+-- QUICK SETTINGS
 
 terminal = "urxvt"
-editor = os.getenv("EDITOR") or "kak"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 
+--------------------------------------------------------------------------------
 -- LAYOUTS
 awful.layout.layouts = {
     awful.layout.suit.floating,
@@ -68,15 +109,16 @@ awful.layout.layouts = {
 }
 -- }}}
 
+
 local titlebars_on = true -- For tablet mode
 
 
--- {{{ MENU
+
+--------------------------------------------------------------------------------
+-- MENU
 -- Create a launcher widget and a main menu
 myawesomemenu =
   { { "Hotkeys",     function() hotkeys_popup.show_help(nil, awful.screen.focused()) end }
-  , { "Manual",      terminal .. " -e man awesome" }
-  , { "Edit Config", editor_cmd .. " " .. awesome.conffile }
   , { "Restart",     awesome.restart }
   , { "Quit",        function() awesome.quit() end } }
 
@@ -90,6 +132,9 @@ mylauncher =
   awful.widget.launcher
     ( { image = beautiful.awesome_icon
       , menu = mymainmenu } )
+
+-- Menubar configuration
+menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
 -- Adapted from streetturtle/awesome-wm-widgets
 mybattery = awful.widget.watch
@@ -109,10 +154,6 @@ mybattery = awful.widget.watch
           timeleft = words[5] end
         widget:set_text( percent .. source .. "(" .. timeleft .. ")" )
         return end end )
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
 
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
