@@ -2,28 +2,30 @@ local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 
--- Theming transitions
+local beautiful = require("beautiful")
+
+-- State
 local update_taglist = function (item, tag, index, _)
-  item:get_children_by_id('name')[1].markup = not ( tag.name == "" ) and "<b>: "..tag.name.."</b>" or ""
-  item:get_children_by_id('index')[1].markup = "<b>"..index.."</b>"
   if tag.selected then
+    item:get_children_by_id('name')[1].markup = not ( tag.name == "" ) and "<b>: "..tag.name.."</b>" or ""
+    item:get_children_by_id('index')[1].markup = "<b>"..index.."</b>"
+  else
+    item:get_children_by_id('name')[1].markup = not ( tag.name == "" ) and tag.name or ""
+    item:get_children_by_id('index')[1].markup = index
+  end
+  if #tag.clients() > 0 then
     item.bg =
-      beautiful.tag.colors.focused or
-      beautiful.xcolor15
-  end --[[elseif tag.urgent then
-    item.bg =
-      beautiful.tag.colors.urgent or
-      beautiful.xcolor9
-  elseif #tag:clients() > 0 then
-    item.bg =
-      beautiful.tag.colors.occupied_i[index] or
-      beautiful.tag.colors.occupied or
-      beautiful.xcolor0
+      beautiful.tag and
+      ( beautiful.tag.colors and
+        beautiful.tag.colors[0] or
+        beautiful.tag.color ) or
+      beautiful["xcolor"..(index+8)%6]
   else
     item.bg =
-      beautiful.tag.colors.empty_i[index] or
-      beautiful.tag.colors.empty or
-    beautiful.xcolor1 end ]]
+      beautiful.tag and
+      beautiful.tag.empty_color or
+      beautiful["xcolor8"]
+  end
 end
 
 local taglist_buttons =
