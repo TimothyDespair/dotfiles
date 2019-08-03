@@ -8,8 +8,8 @@ settings.editor_cmd = settings.terminal .. " -e " .. settings.editor
 settings.modkey = "Mod4"
 
 settings.themes =
-  { "default" }
-settings.active_theme = "default"
+  { "gruvy" }
+settings.active_theme = "gruvy"
 
 settings.bar_themes =
   { "laptop" }

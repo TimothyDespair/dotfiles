@@ -18,12 +18,17 @@ local settings = require("settings")
 -- THEME -----------------------------------------------------------------------
 
 local beautiful = require("beautiful")
-local theme_dir = os.getenv("HOME") .. ".config/awesome/themes/"
+local theme_dir = os.getenv("HOME") .. "/.config/awesome/themes/"
 
 local xresources = require("beautiful.xresources")
 dpi = xresources.apply_dpi
 
-beautiful.init( theme_dir .. settings.active_theme .. "/theme.lua" )
+-- Useful for error checking themes
+require("themes/"..settings.active_theme.."/theme")
+
+local theme_path = theme_dir .. settings.active_theme .."/theme.lua"
+if not beautiful.init( theme_path ) then
+error("Failed to load theme from: " .. theme_path) end
 
 local xrdb = xresources.get_current_theme()
 for k, v in pairs(xrdb) do
@@ -80,7 +85,7 @@ local function set_wallpaper(s)
     if type(wallpaper) == "function" then wallpaper = wallpaper(s) end
     gears.wallpaper.maximized(wallpaper, s, true) end end
 
--- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
+-- Re-set wallpaper when a screen's geometry changes (e.g. defferent reslution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
 ------------------------------------------------------------------- WALLPAPER --

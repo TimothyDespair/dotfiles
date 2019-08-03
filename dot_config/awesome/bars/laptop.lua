@@ -11,14 +11,17 @@ local layout = require("bars/buttons/layout")
 local taglist = require("bars/widgets/taglist")
 
 local attach_bar = function(s)
-  s.taglist = taglist(s)
-  s.layout_button = taglist(s)
+  s.taglist =
+    --awful.widget.taglist {screen = s, filter = awful.widget.taglist.filter.all}
+    taglist(s)
+  -- s.layout_button = {}
 
   s.wibox = awful.wibar(
     { visible = true
     , ontop = true
     , type = "dock"
     , position = "top"
+    , bg = beautiful.bar and beautiful.bar.bg_color or beautiful.bg_color
     , height = beautiful.bar and beautiful.bar.height or dpi(26) } )
 
   s.wibox:setup
@@ -33,8 +36,8 @@ local attach_bar = function(s)
       , volume
         -- BATTERY,
         -- BINARY CLOCK
-      , s.layout_button } }
+      --[[ , s.layout_button]] } }
 
-  awful.placement.maximize_horizontally(s.wibox) end
-
+  -- awful.placement.maximize_horizontally(s.wibox) end
+end
 return attach_bar

@@ -12,7 +12,7 @@ local main_menu =
   awful.menu
     ( { items =
         { { "Awesome", awesome_menu, beautiful.awesome_icon }
-	, { "Terminal", terminal } } } )
+        , { "Terminal", terminal } } } )
 
 local menu_launcher =
   awful.widget.launcher
