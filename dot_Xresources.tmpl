@@ -4,9 +4,17 @@ XTerm.termName: xterm-256color
 Xft.dpi: 220
 {{- end}}
 
+{{- if ne .chezmoi.hostname "penelope"}} 
 URxvt.font:       xft:Meslo LG S for Powerline:style=Regular:size=9
 URxvt.boldFont:   xft:Meslo LG S for Powerline:style=Bold:size=9
 URxvt.italicFont: xft:Meslo LG S for Powerline:style=Italic:size=9
+{{- end}}
+
+{{- if eq .chezmoi.hostname "penelope"}}
+URxvt.font:       xft:Terminess Powerline:style=Regular:size=8
+URxvt.boldFont:   xft:Terminess Powerline:style=Regular:size=8
+URxvt.italicFont: xft:Terminess Powerline:style=Regular:size=8
+{{- end}}
 
 ! hard contrast: *background: #1d2021
 *background: #282828

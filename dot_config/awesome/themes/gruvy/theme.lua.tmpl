@@ -22,7 +22,13 @@ local gv = gruvbox
 local theme_dir = "themes/gruvy/"
 
 local theme =
-  { font = "Meslo LG S for Powerline 9"
+  {
+{{- if ne .chezmoi.hostname "penelope"}}
+    font = "Meslo LG S for Powerline 9"
+{{- end}}
+{{- if eq .chezmoi.hostname "penelope"}}
+    font = "Terminess Powerline 8"
+{{- end}}
 
   , wallpaper = require(theme_dir .. "wallpaper")(gv.brred, gv.bryellow, gv.brgreen, gv.bg0_h)
 
