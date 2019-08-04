@@ -1,9 +1,13 @@
 local awful = require("awful")
 local gears = require("gears")
+local wibox = require("wibox")
+local naughty = require("naughty")
+
+local beautiful = require("beautiful")
 
 local clientkeys = require("clientkeys")
 
-clientbuttons =
+local clientbuttons =
   gears.table.join
     ( awful.button
         ( { }, 1
@@ -35,6 +39,11 @@ client.connect_signal
 client.connect_signal
   ( "request::titlebars"
   , function(c)
+      c.shape = function(cr, width, height)
+        gears.shape.rounded_rect(cr, width, height, dpi(5))
+      end
+
+      local ret, err = pcall(function()
       local buttons =
         gears.table.join
           ( awful.button
@@ -47,21 +56,29 @@ client.connect_signal
               , function()
                   c:emit_signal("request::activate", "titlebar", { raise = true } )
                   awful.mouse.client.resize(c) end ) )
-      local size = titlebars_on and 16 or 0
-      awful.titlebar(c, { size = dpi(size) } ) : setup
-        { { buttons = buttons -- LHS
-          , layout  = wibox.layout.fixed.horizontal }
-        , { { align  = "center" -- MIDDLE
-            , widget = awful.titlebar.widget.titlewidget(c) }
-          , buttons = buttons
-          , layout  = wibox.layout.flex.horizontal }
-        , { awful.titlebar.widget.floatingbutton (c) --RHS
-          , awful.titlebar.widget.maximizedbutton(c)
+
+      local size = dpi(16)
+
+      awful.titlebar(c, { size = size } ) : setup
+        { layout = wibox.layout.align.horizontal
+        , { layout = wibox.layout.fixed.horizontal -- LHS
+          , spacing = -dpi(17)
+          , awful.titlebar.widget.floatingbutton (c)
           , awful.titlebar.widget.stickybutton   (c)
-          , awful.titlebar.widget.ontopbutton    (c)
-          , awful.titlebar.widget.closebutton    (c)
-          , layout = wibox.layout.fixed.horizontal() }
-        , layout = wibox.layout.align.horizontal } end )
+          , awful.titlebar.widget.ontopbutton    (c) }
+        , { align  = "center" -- MIDDLE
+          , buttons = buttons
+          , widget = awful.titlebar.widget.titlewidget(c) }
+        , { layout = wibox.layout.fixed.horizontal
+          , spacing = -dpi(17)
+          , awful.titlebar.widget.minimizebutton (c)
+          , awful.titlebar.widget.maximizedbutton(c)
+          , awful.titlebar.widget.closebutton    (c) } }
+      end )
+      if err then
+        naughty.notify({text = err})
+      end
+    end )
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal

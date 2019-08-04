@@ -17,7 +17,7 @@ local function get_theme_prop(name)
 
 local gtp = get_theme_prop
 
-local make_button = function (symbol, color, bg_color, hover_color, font, shape, width)
+local make_button = function (symbol, color, bg_color, hover_color, font, width)
   local widget = wibox.widget
     { font = font or gtp("font")
     , align = "center"
@@ -25,27 +25,18 @@ local make_button = function (symbol, color, bg_color, hover_color, font, shape,
     , valign = "center"
     , markup =
         colorise_text
-          ( symbol
+          ( " "..symbol.." "
           , color or gtp("color") or beautiful.xcolor15 )
     , widget = wibox.widget.textbox }
 
   local section = wibox.widget
-    { widget
-    , forced_width =
-        width or
-        beautiful.bar and
-        ( beautiful.bar.button and
-          beautiful.bar.button.width or
-          beautiful.button and beautiful.button.width ) or
-        dpi(40)
+    { widget = wibox.container.background
     , bg = bg_color or gtp("bg_color")
-    , widget = wibox.container.background
-    , shape =
-        beautiful.bar and
-          ( beautiful.bar.button and
-            beautiful.bar.button.shape or
-            beautiful.button and beautiful.button.shape ) or
-        function (cr, width, height) gears.shape.rectangle(cr, width, height) end }
+    , shape = function (cr, w, h) gears.shape.parallelogram(cr, w, h, w-h) end
+    , { widget = wibox.container.margin
+        , left = dpi(16)
+        , right = dpi(16)
+        , widget } }
 
   section:connect_signal("mouse::enter", function ()
     section.bg =

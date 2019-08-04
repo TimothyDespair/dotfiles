@@ -2,30 +2,45 @@ local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 
+local naughty = require("naughty")
+
 local beautiful = require("beautiful")
 
 -- State
 local update_taglist = function (item, tag, index, _)
-  if tag.selected then
-    item:get_children_by_id('name')[1].markup = not ( tag.name == "" ) and "<b>: "..tag.name.."</b>" or ""
-    item:get_children_by_id('index')[1].markup = "<b>"..index.."</b>"
-  else
-    item:get_children_by_id('name')[1].markup = not ( tag.name == "" ) and tag.name or ""
-    item:get_children_by_id('index')[1].markup = index
+  local res, err = pcall( function ()
+      local color =
+        beautiful.tag and
+        beautiful.tag.font_color or
+        beautiful.xforeground
+    if tag.selected then
+      item:get_children_by_id('name')[1].markup =
+        " <span foreground='"..color.."'><b>"..index..(tag.name and ":"..tag.name or "" ).." </b></span>"
+    else
+      item:get_children_by_id('name')[1].markup =
+        " <span foreground='"..color.."'>"..index..(tag.name and ":"..tag.name or "" ).."</span> "
+    end
+    if #tag.clients(tag) > 0 then
+      item.bg =
+        beautiful.tag and
+        ( beautiful.tag.colors and
+          beautiful.tag.colors[(index-1)%6+1] or
+          beautiful.tag.color ) or
+        beautiful["xcolor"..(index-1)%6 + 1]
+    else
+      item.bg =
+        beautiful.tag and
+        beautiful.tag.empty_color or
+        beautiful["xcolor8"]
+    end
+  end )
+  if err then
+    naughty.notify({text = err})
   end
-  if #tag.clients() > 0 then
-    item.bg =
-      beautiful.tag and
-      ( beautiful.tag.colors and
-        beautiful.tag.colors[0] or
-        beautiful.tag.color ) or
-      beautiful["xcolor"..(index+8)%6]
-  else
-    item.bg =
-      beautiful.tag and
-      beautiful.tag.empty_color or
-      beautiful["xcolor8"]
-  end
+end
+
+local parallelogram = function(cr, width, height)
+  gears.shape.parallelogram(cr, width, height, width-height)
 end
 
 local taglist_buttons =
@@ -43,14 +58,21 @@ local taglist = function(s)
     { screen = s
     , filter = awful.widget.taglist.filter.all
     , buttons = taglist_buttons
+    , layout =
+      { spacing = -dpi(17)
+      , layout = wibox.layout.flex.horizontal }
     , widget_template =
-      { id = "background_role"
+      { id = "button"
       , widget = wibox.container.background
-      , { layout = wibox.layout.fixed.horizontal,
-          { id = "index"
-          , widget = wibox.widget.textbox }
+      , shape = parallelogram
+      , forced_width = dpi(120)
+      , { widget = wibox.container.margin
+        , left = dpi(16)
+        , right = dpi(16)
         , { id = "name"
-            , widget = wibox.widget.textbox } }
+          , align = "center"
+          , valign = "center"
+          , widget = wibox.widget.textbox } }
       , create_callback = update_taglist
       , update_callback = update_taglist } }
   return taglist

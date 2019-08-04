@@ -63,7 +63,7 @@ do
   awesome.connect_signal
     ( 'debug::error'
     , function (err)
-        if in_eror then return end
+        if in_error then return end
         in_error = true
 
         naughty.notify
@@ -71,6 +71,8 @@ do
             , title  = "There was a runtime error. What did you break?"
             , text   = toString(err) } )
         in_error = false end ) end
+
+local post_error = require("post-error")
 ---------------------------------------------------------------------- ERRORS --
 
 awful.layout.layouts = settings.layouts
@@ -91,13 +93,20 @@ screen.connect_signal("property::geometry", set_wallpaper)
 ------------------------------------------------------------------- WALLPAPER --
 -- SCREENS ---------------------------------------------------------------------
 local attach_bar = require("bars/"..settings.active_bar_theme)
+local attach_prompt = require("floating-prompt")
 
 awful.screen.connect_for_each_screen(function(s)
-  set_wallpaper(s)
+  local res, err = pcall( function ()
+    set_wallpaper(s)
 
-  awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[1])
+    awful.tag({ "Terms", "Web", "", "", "" }, s, awful.layout.layouts[1])
 
-  attach_bar(s)
+    attach_bar(s)
+    -- s.myprompt = attach_prompt(s)
+  end)
+  if err then
+    post_error(err)
+  end
 end)
 --------------------------------------------------------------------- SCREENS --
 -- MOUSE -----------------------------------------------------------------------

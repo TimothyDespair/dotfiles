@@ -15,6 +15,7 @@ local attach_bar = function(s)
     --awful.widget.taglist {screen = s, filter = awful.widget.taglist.filter.all}
     taglist(s)
   -- s.layout_button = {}
+  s.promptbox = awful.widget.prompt()
 
   s.wibox = awful.wibar(
     { visible = true
@@ -26,17 +27,22 @@ local attach_bar = function(s)
 
   s.wibox:setup
     { layout = wibox.layout.align.horizontal
-    , { layout = wibox.layout.align.horizontal
+    , expand = "outside"
+    , { layout = wibox.layout.fixed.horizontal
       , launcher
+      , s.promptbox
       --[[ TODO Music ]] }
     , s.taglist
     , { layout = wibox.layout.align.horizontal
-        -- VPN,
-        -- WIFI,
-      , volume
+        , { layout = wibox.layout.align.horizontal }
+        , { layout = wibox.layout.align.horizontal }
+        , { layout = wibox.layout.align.horizontal
+          -- VPN,
+          -- WIFI,
+          , volume
         -- BATTERY,
         -- BINARY CLOCK
-      --[[ , s.layout_button]] } }
+        --[[ , s.layout_button]] } } }
 
   -- awful.placement.maximize_horizontally(s.wibox) end
 end

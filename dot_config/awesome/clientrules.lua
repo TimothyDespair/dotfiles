@@ -1,6 +1,8 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 
+local clientkeys = require("clientkeys")
+
 awful.rules.rules =
   { { rule = { } -- All clients will match this rule.
     , properties =

@@ -17,6 +17,7 @@ local main_menu =
 local menu_launcher =
   awful.widget.launcher
     ( { image = beautiful.launcher_icon
+      , width = dpi(16)*4
       , menu  = main_menu } )
 
 return

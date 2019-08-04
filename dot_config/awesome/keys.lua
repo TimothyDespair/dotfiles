@@ -95,7 +95,7 @@ local keys =
         , { description = "Un-Minimise",     group = "Client" } )
     -- Prompt
     , awful.key
-        ( { modkey },            "r",        function () awful.screen.focused().mypromptbox:run() end
+        ( { modkey },            "r",        function () awful.screen.focused().promptbox:run() end
         , { description = "Prompt",          group = "Launcher" } )
     , awful.key
         ( { modkey }, "x"
