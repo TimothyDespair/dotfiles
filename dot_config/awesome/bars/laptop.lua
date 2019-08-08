@@ -7,6 +7,7 @@ local keys = require("keys")
 
 local launcher = require("menu").menu_launcher
 local volume = require("bars/buttons/volume")
+local bin_clock = require("bars/buttons/bin-clock")
 local layout = require("bars/buttons/layout")
 local taglist = require("bars/widgets/taglist")
 
@@ -41,7 +42,7 @@ local attach_bar = function(s)
           -- WIFI,
           , volume
         -- BATTERY,
-        -- BINARY CLOCK
+          , bin_clock
         --[[ , s.layout_button]] } } }
 
   -- awful.placement.maximize_horizontally(s.wibox) end

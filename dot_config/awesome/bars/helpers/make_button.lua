@@ -17,17 +17,12 @@ local function get_theme_prop(name)
 
 local gtp = get_theme_prop
 
-local make_button = function (symbol, color, bg_color, hover_color, font, width)
+local make_button = function (image, color, bg_color, hover_color, font, width)
   local widget = wibox.widget
     { font = font or gtp("font")
-    , align = "center"
     , id = "text_role"
-    , valign = "center"
-    , markup =
-        colorise_text
-          ( " "..symbol.." "
-          , color or gtp("color") or beautiful.xcolor15 )
-    , widget = wibox.widget.textbox }
+    , image = image
+    , widget = wibox.widget.imagebox }
 
   local section = wibox.widget
     { widget = wibox.container.background

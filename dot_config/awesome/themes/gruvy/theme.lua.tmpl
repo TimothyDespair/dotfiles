@@ -32,18 +32,36 @@ local theme =
 
   , wallpaper = require(theme_dir .. "wallpaper")(gv.brred, gv.bryellow, gv.brgreen, gv.bg0_h)
 
-  , useless_gap = dpi(3)
+  , useless_gap = dpi(3)}
 
-  , volume =
+theme.volume =
     { char = "VOLUME"
     , font = "Meslo LG S for Powerline 9"}
 
-  , fg_normal = gv.fg
-  , bg_normal = gv.bg
-  , bar =
+theme.fg_normal = gv.fg
+theme.bg_normal = gv.bg
+theme.bar =
     { bg_color = gv.bg
     , height = dpi(16) }
-  , launcher_icon = require(theme_dir .. "icons/launcher")(gv.brred, gv.bryellow, gv.brgreen) }
+theme.launcher_icon =
+  require(theme_dir .. "icons/launcher")
+    (gv.brred, gv.bryellow, gv.brgreen, gv.brblue, gv.brpurple, gv.brcyan)
+    (0)
+theme.launcher_icon_hover =
+  require(theme_dir .. "icons/launcher")
+    (gv.brred, gv.bryellow, gv.brgreen, gv.brblue, gv.brpurple, gv.brcyan)
+    (1)
+theme.launcher_icon_ease =
+  require(theme_dir .. "icons/launcher")
+    (gv.brred, gv.bryellow, gv.brgreen, gv.brblue, gv.brpurple, gv.brcyan)
+
+theme.volume_icon =
+  require(theme_dir .. "icons/volume")
+    ( gv.purple, gv.brpurple, gv.bg )
+
+theme.clock_icon =
+  require(theme_dir .. "icons/bin-clock")
+    ( gv.bg, gv.brred )
 
 local cairo = require("lgi").cairo
 local gears = require("gears")
@@ -81,3 +99,6 @@ theme.titlebar_ontop_button_focus_active = title_button(gv.cyan)
 
 return theme
 
+-- Local Variables:
+-- mode: lua
+-- End:
