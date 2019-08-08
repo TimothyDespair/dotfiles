@@ -4,6 +4,8 @@
 (tooltip-mode    -1)
 (menu-bar-mode   -1)
 
+(global-display-line-numbers-mode t)
+
 ;; Package Config
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -69,6 +71,17 @@
 (use-package neotree
   :ensure t)
 
+;; Org
+(setq org-agenda-files
+  (append
+    (directory-files-recursively "~/University/" "\.org$")))
+
+(use-package calfw
+  :ensure t)
+
+(use-package calfw
+  :ensure t)
+
 ;; Theme
 (use-package gruvbox-theme
   :ensure t
@@ -81,6 +94,12 @@
   :config
   (setq ivy-use-virtual-buffers t
         ivy-count-format "%d/%d"))
+
+;; Completion
+(use-package company
+  :ensure t
+  :hook
+  (emacs-list-mode . (lambda () (add-to-list (make-local-variable 'company-bakends) '(company-elisp)))))
 
 ;; Which Key (Key hints)
 (use-package which-key
@@ -114,3 +133,9 @@
     "wx"  '(delete-window         :which-key "delete window")
     ;; Others
     "at"  '(ansi-term             :which-key "open terminal")))
+
+;; Language Support
+(use-package lua-mode
+  :ensure t)
+(use-package company-lua
+  :ensure t)
