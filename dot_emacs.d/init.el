@@ -27,40 +27,18 @@
   :config
   (editorconfig-mode 1))
 
+;; Custom keybinding package
+(use-package general
+  :ensure t)
+
 ;; Vim mode
-(use-package evil
-  :ensure t
-  :config
-  (evil-mode 1))
-
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode 1)
-  (setq undo-tree-auto-save-history t))
-
-(use-package evil-easymotion
-  :ensure t
-  :config
-  (evilem-default-keybindings "SPC"))
-
-(use-package evil-snipe
-  :ensure t
-  :config
-  (evil-snipe-mode 1))
-
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode 1))
-
-(use-package evil-goggles
-  :ensure t
-  :config
-  (evil-goggles-mode 1))
+(load-file "~/.emacs.d/evil.el")
 
 ;; VCS
 (use-package magit
+  :ensure t)
+
+(use-package ediff
   :ensure t)
 
 (use-package projectile
@@ -68,25 +46,20 @@
   :config
   (projectile-mode 1))
 
-(use-package neotree
-  :ensure t)
+;; Neotree
+(load-file "~/.emacs.d/neotree.el")
 
 ;; Org
-(setq org-agenda-files
-  (append
-    (directory-files-recursively "~/University/" "\.org$")))
-
-(use-package calfw
-  :ensure t)
-
-(use-package calfw
-  :ensure t)
+(load-file "~/.emacs.d/org.el")
 
 ;; Theme
 (use-package gruvbox-theme
   :ensure t
   :config
   (load-theme 'gruvbox t))
+
+(use-package rainbow-delimiters
+  :ensure t)
 
 ;; Ivy
 (use-package ivy
@@ -109,30 +82,6 @@
         which-key-prefix-prefix "+")
   :config
   (which-key-mode))
-
-;; Custom keybinding
-(use-package general
-  :ensure t
-  :config
-  (general-define-key
-    :states '(normal visual insert emacs)
-    :prefix "SPC"
-    :non-normal-prefix "M-SPC"
-    "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
-    "SPC" '(helm-M-x              :which-key "M-x")
-    "pf"  '(helm-find-file        :which-key "find files")
-    ;; Buffers
-    "bb"  '(helm-buffers-list     :which-key "buffers list")
-    ;; Window
-    "wl"  '(windmove-right        :which-key "move right")
-    "wh"  '(windmove-left         :which-key "move left")
-    "wk"  '(windmove-up           :which-key "move up")
-    "wj"  '(windmove-down         :which-key "move down")
-    "w/"  '(split-window-right    :which-key "split right")
-    "w-"  '(split-window-below    :which-key "split below")
-    "wx"  '(delete-window         :which-key "delete window")
-    ;; Others
-    "at"  '(ansi-term             :which-key "open terminal")))
 
 ;; Language Support
 (use-package lua-mode
