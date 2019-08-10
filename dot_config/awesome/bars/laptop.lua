@@ -7,7 +7,7 @@ local keys = require("keys")
 
 local launcher = require("menu").menu_launcher
 local volume = require("bars/buttons/volume")
-local bin_clock = require("bars/buttons/bin-clock")
+local bin_clock = require("bars/buttons/bin_clock")
 local layout = require("bars/buttons/layout")
 local taglist = require("bars/widgets/taglist")
 
@@ -15,7 +15,7 @@ local attach_bar = function(s)
   s.taglist =
     --awful.widget.taglist {screen = s, filter = awful.widget.taglist.filter.all}
     taglist(s)
-  -- s.layout_button = {}
+  s.layout_button = layout(s)
   s.promptbox = awful.widget.prompt()
 
   s.wibox = awful.wibar(
@@ -43,7 +43,7 @@ local attach_bar = function(s)
           , volume
         -- BATTERY,
           , bin_clock
-        --[[ , s.layout_button]] } } }
+        , s.layout_button } } }
 
   -- awful.placement.maximize_horizontally(s.wibox) end
 end
