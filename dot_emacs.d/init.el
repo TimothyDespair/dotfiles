@@ -12,7 +12,8 @@
 (setq package-archives
   '(("org"    . "http://orgmode.org/elpa/")
     ("gnu"    . "http://elpa.gnu.org/packages/")
-    ("melpa"  . "http://melpa.org/packages/")))
+    ("melpa"  . "http://melpa.org/packages/")
+    ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (package-initialize)
 
 ;; Bootstrap `use-package`
@@ -29,7 +30,22 @@
 
 ;; Custom keybinding package
 (use-package general
-  :ensure t)
+  :ensure t
+  :config
+  (general-define-key
+   :states '(normal visual insert emacs)
+   :prefix "SPC"
+   :non-normal-prefix "M-SPC"
+   "TAB"   '(switch-to-prev-buffer :which-key "Previous Buffer")
+   "S-TAB" '(switch-to-next-buffer :which-key "Next Buffer")
+   "SPC"   '(helm-find-file        :which-key "Find Files")
+   "w"     '(:which-key "Window Actions")
+   "wl"    '(windmove-right        :which-key "Move Right")
+   "wk"    '(windmove-up           :which-key "Move Up")
+   "wj"    '(windmove-down         :which-key "Move Down")
+   "w|"    '(split-window-right    :which-key "Split Right")
+   "w-"    '(split-window-below    :which-key "Split Down")
+   "wx"    '(delete-window         :which-key "Delete Window")))
 
 ;; Vim mode
 (load-file "~/.emacs.d/evil.el")
@@ -41,16 +57,11 @@
 (use-package ediff
   :ensure t)
 
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-mode 1))
-
-;; Neotree
-(load-file "~/.emacs.d/neotree.el")
-
 ;; Org
 (load-file "~/.emacs.d/org.el")
+
+;; Neotree/Projectile/Perspective
+(load-file "~/.emacs.d/neotree.el")
 
 ;; Theme
 (use-package gruvbox-theme
@@ -60,6 +71,13 @@
 
 (use-package rainbow-delimiters
   :ensure t)
+
+(use-package powerline
+  :ensure t)
+(use-package powerline-evil
+  :ensure t
+  :config
+  (powerline-evil-vim-color-theme))
 
 ;; Ivy
 (use-package ivy
@@ -71,6 +89,10 @@
 ;; Completion
 (use-package company
   :ensure t
+  :general
+  (:states 'normal
+   :prefix "SPC"
+   "c" 'company-mode)
   :hook
   (emacs-list-mode . (lambda () (add-to-list (make-local-variable 'company-bakends) '(company-elisp)))))
 

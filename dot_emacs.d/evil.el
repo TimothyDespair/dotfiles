@@ -12,7 +12,7 @@
 (use-package evil-easymotion
   :ensure t
   :config
-  (evilem-default-keybindings "SPC"))
+  (evilem-default-keybindings "M"))
 
 (use-package evil-snipe
   :ensure t
