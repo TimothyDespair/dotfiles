@@ -34,7 +34,20 @@
   :init
   (setq org-agenda-files
       (append
-       (directory-files-recursively "~/University/" "\.org$"))))
+       (directory-files-recursively "~/University/" "\.org$")
+       (list "~/schedule.org"))))
 
 (use-package calfw
   :ensure t)
+(use-package calfw-org
+  :ensure t)
+(use-package org-gcal
+  :ensure t
+  :init
+  (setq org-gcal-client-id "{{ (index (onepassword "4r546tpulfh7hn5nozqbaklqte").details.fields 0).value }}"
+	org-gcal-client-secret "{{ (index (onepassword "4r546tpulfh7hn5nozqbaklqte").details.fields 1).value }}"
+	org-gcal-file-alist '(("snappycroissant@gmail.com" . "~/schedule.org"))))
+
+;; Local Variables:
+;; mode: emacs-lisp
+;; End:
