@@ -63,6 +63,12 @@
 ;; Neotree/Projectile/Perspective
 (load-file "~/.emacs.d/neotree.el")
 
+;; Languages
+(setq auto-mode-alist
+      (append '(("\\.pl\\'" . prolog-mode)
+		("\\.m\\'" . mercury-mode))
+	      auto-mode-alist))
+
 ;; Theme
 (use-package gruvbox-theme
   :ensure t
