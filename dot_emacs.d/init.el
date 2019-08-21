@@ -4,7 +4,7 @@
 (tooltip-mode    -1)
 (menu-bar-mode   -1)
 
-(global-display-line-numbers-mode t)
+(cond ((> emacs-major-version 25)(global-display-line-numbers-mode t)))
 
 ;; Package Config
 (require 'package)
@@ -34,7 +34,7 @@
   :config
   (general-define-key
    :states '(normal visual insert emacs)
-   :prefix "SPC"
+  :prefix "SPC"
    :non-normal-prefix "M-SPC"
    "TAB"   '(switch-to-prev-buffer :which-key "Previous Buffer")
    "S-TAB" '(switch-to-next-buffer :which-key "Next Buffer")
@@ -95,10 +95,10 @@
 ;; Completion
 (use-package company
   :ensure t
-  :general
-  (:states 'normal
-   :prefix "SPC"
-   "c" 'company-mode)
+  ;:general
+  ;(:states 'normal
+   ;:prefix "SPC"
+   ;"c" 'company-mode)
   :hook
   (emacs-list-mode . (lambda () (add-to-list (make-local-variable 'company-bakends) '(company-elisp)))))
 
