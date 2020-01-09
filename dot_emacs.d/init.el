@@ -4,7 +4,11 @@
 (tooltip-mode    -1)
 (menu-bar-mode   -1)
 
-(cond ((> emacs-major-version 25)(global-display-line-numbers-mode t)))
+(if (> emacs-major-version 25)
+    (progn
+      (global-display-line-numbers-mode t)
+      (pixel-scroll-mode)
+      (setq pixel-resolution-fine-flag t)))
 
 ;; Package Config
 (require 'package)
@@ -43,7 +47,8 @@
    "wl"    '(windmove-right        :which-key "Move Right")
    "wk"    '(windmove-up           :which-key "Move Up")
    "wj"    '(windmove-down         :which-key "Move Down")
-   "w|"    '(split-window-right    :which-key "Split Right")
+   "wh"    '(windmove-left         :which-key "Split Right")
+   "w|"    '(split-window-right    :which-key "Split Left")
    "w-"    '(split-window-below    :which-key "Split Down")
    "wx"    '(delete-window         :which-key "Delete Window")))
 
